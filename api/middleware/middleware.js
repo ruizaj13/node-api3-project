@@ -20,7 +20,7 @@ async function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  req.body.name ? next() : res.status(400).json({error: 'please provide a name for the new user'})
+  req.body.name ? next() : res.status(400).json({error: 'please provide a name for the user'})
 }
 
 function validatePostId(req, res, next) {
