@@ -22,7 +22,14 @@ router.get('/:id', validateUserId, (req, res) => {
   res.status(200).json(req.user)
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateUserId, (req, res, next) => {
+   Users.remove(req.params.id)
+    .then(user => {
+      res.status(200).json({message: 'user hase been deleted'})
+    })
+    .catch(error => {
+      next(error)
+    })
   // do your magic!
   // this needs a middleware to verify user id
 });
@@ -39,7 +46,9 @@ router.post('/:id/posts', (req, res) => {
   // and another middleware to check that the request body is valid
 });
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id/posts', validateUserId, (req, res) => {
+  req.user.posts ? res.status(200).json(req.user.posts) : res.status(404).json('This user has no posts')
+
   // do your magic!
   // this needs a middleware to verify user id
 });

@@ -20,7 +20,7 @@ async function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  // do your magic!
+  // req.body.name ? next() : 
 }
 
 function validatePostId(req, res, next) {
