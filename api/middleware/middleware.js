@@ -28,6 +28,8 @@ function validatePostId(req, res, next) {
 }
 
 function validatePost(req, res, next) {
+  req.body.text && req.body.user_id ? next() : res.status(400).json({error: 'please provide proper text and user ID'})
+
   // do your magic!
 }
 

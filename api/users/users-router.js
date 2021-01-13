@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Users = require('./users-model')
+const Posts = require('../posts/posts-model')
 const {validateUserId, validateUser, validatePostId, validatePost} = require('../middleware/middleware')
 
 router.post('/', validateUser, (req, res, next) => {
@@ -50,7 +51,17 @@ router.put('/:id', validateUserId, validateUser, (req, res, next) => {
   // and another middleware to check that the request body is valid
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
+  Users.getById(req.params.id)
+    .then(user => {
+      Posts.insert(req.body)
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(error => {
+        next(error)
+      })
+    })
   // do your magic!
   // this needs a middleware to verify user id
   // and another middleware to check that the request body is valid
