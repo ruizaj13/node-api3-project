@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const Users = require('./users-model')
 const Posts = require('../posts/posts-model')
-const {validateUserId, validateUser, validatePostId, validatePost} = require('../middleware/middleware')
+const {validateUserId, validateUser, validatePost} = require('../middleware/middleware')
 
 router.post('/', validateUser, (req, res, next) => {
   Users.insert(req.body)
     .then(user => {
-      res.status(201).json(user)
+      res.status(200).json(user)
     })
     .catch(error => {
       next(error)
@@ -31,7 +31,7 @@ router.get('/:id', validateUserId, (req, res) => {
 router.delete('/:id', validateUserId, (req, res, next) => {
    Users.remove(req.params.id)
     .then(user => {
-      res.status(200).json({message: 'user hase been deleted'})
+      res.status(204).json({message: 'user hase been deleted'})
     })
     .catch(error => {
       next(error)
@@ -41,7 +41,7 @@ router.delete('/:id', validateUserId, (req, res, next) => {
 router.put('/:id', validateUserId, validateUser, (req, res, next) => {
   Users.update(req.params.id, req.body)
     .then(user => {
-      res.status(200).json(user)
+      res.status(204).json(user)
     })
     .catch(error => {
       next(error)
@@ -56,7 +56,7 @@ router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
     .then(user => {
       Posts.insert(req.body)
       .then(user => {
-        res.status(200).json(user)
+        res.status(201).json(user)
       })
       .catch(error => {
         next(error)
@@ -79,7 +79,7 @@ router.get('/:id/posts', validateUserId, (req, res, next) => {
   // this needs a middleware to verify user id
 });
 
-router.use((error, req, res, next) => {
+router.use((error, req, res) => {
   res.status(500).json({
     message: error.message
   })
