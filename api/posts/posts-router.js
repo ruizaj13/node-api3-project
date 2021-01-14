@@ -17,9 +17,14 @@ router.get('/:id', validatePostId, (req, res) => {
   res.status(200).json(req.post)
 });
 
-router.delete('/:id', (req, res) => {
-  // do your magic!
-  // this needs a middleware to verify post id
+router.delete('/:id', validatePostId, (req, res, next) => {
+  Posts.remove(req.params.id)
+    .then(post =>{
+      res.status(200).json({message: 'post has been deleted'})
+    })
+    .catch(error => {
+      next(error)
+    })
 });
 
 router.put('/:id', (req, res) => {

@@ -31,7 +31,7 @@ router.get('/:id', validateUserId, (req, res) => {
 router.delete('/:id', validateUserId, (req, res, next) => {
    Users.remove(req.params.id)
     .then(user => {
-      res.status(204).json({message: 'user hase been deleted'})
+      res.status(200).json({message: 'user has been deleted'})
     })
     .catch(error => {
       next(error)
