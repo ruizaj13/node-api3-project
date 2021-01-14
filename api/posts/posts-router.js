@@ -27,7 +27,11 @@ router.delete('/:id', validatePostId, (req, res, next) => {
     })
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validatePostId,(req, res) => {
+  Posts.update(req.params.id, req.body)
+    .then(post => {
+      req.body.text ? res.status(200).json(post) : res.status(400).json({message: 'no changes were provided'})
+    })
   // do your magic!
   // this needs a middleware to verify post id
 });
