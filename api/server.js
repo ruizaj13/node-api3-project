@@ -13,7 +13,7 @@ server.use('/api/posts', postsRouter)
 server.use(logger)
 
 server.get('/', (req, res) => {
-  res.send(`<h2>Let's write some middleware!</h2>`);
+  res.send(`<h2>Let's write some middleware!</h2> </br></br><h2>Heroku deployment is a success</h2>`);
 });
 
 module.exports = server;
