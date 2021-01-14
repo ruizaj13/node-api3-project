@@ -67,9 +67,14 @@ router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
   // and another middleware to check that the request body is valid
 });
 
-router.get('/:id/posts', validateUserId, (req, res) => {
-  req.user.posts ? res.status(200).json(req.user.posts) : res.status(404).json('This user has no posts')
-
+router.get('/:id/posts', validateUserId, (req, res, next) => {
+  Users.getUserPosts(req.params.id)
+    .then(post => {
+      post.length ? res.status(200).json(post) : res.status(404).json('This user has no posts')
+    })
+    .catch(error => {
+      next(error)
+    })
   // do your magic!
   // this needs a middleware to verify user id
 });
